@@ -6,6 +6,16 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
 
+    def update(self, instance: User, validated_data: dict):
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+            if key == "senha":
+                instance.set_password(value)
+
+        instance.save()
+
+        return instance
+
     class Meta:
         model = User
         fields = [
