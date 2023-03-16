@@ -2,11 +2,15 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+class UserType(models.TextChoices):
+    ADMINISTRADOR = "Administrador"
+    FUNCIONARIO = "Funcionário"
+    CLIENTE = "Cliente"
+
+
 class User(AbstractUser):
-    nome = models.CharField(max_length=255)
-    dataCadastro = models.DateField(auto_now_add=True)
-    dataExpiracao = models.DateField(null=True)
-    url_image_user = models.CharField(
-        max_length=255,
-        null=True,
+    user_type = models.CharField(
+        max_length=20,
+        choices=UserType.choices,
+        default=UserType.CLIENTE,
     )

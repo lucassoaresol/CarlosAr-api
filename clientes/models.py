@@ -2,55 +2,26 @@ from django.db import models
 
 
 class Cliente(models.Model):
-    nomeCliente = models.CharField(max_length=255)
-    sexo = models.CharField(
+    nome = models.CharField(max_length=255)
+    documento = models.CharField(max_length=20)
+    email = models.EmailField(
+        max_length=100,
+        unique=True,
+        null=True,
+    )
+    celular = models.CharField(max_length=20)
+    telefone = models.CharField(
         max_length=20,
         null=True,
     )
     pessoa_fisica = models.BooleanField(default=True)
-    documento = models.CharField(max_length=20)
-    telefone = models.CharField(max_length=20)
-    celular = models.CharField(
-        max_length=20,
-        null=True,
-    )
-    email = models.EmailField(max_length=100)
-    dataCadastro = models.DateField(auto_now_add=True)
-    rua = models.CharField(
-        max_length=70,
-        null=True,
-    )
-    numero = models.CharField(
-        max_length=15,
-        null=True,
-    )
-    bairro = models.CharField(
-        max_length=45,
-        null=True,
-    )
-    cidade = models.CharField(
-        max_length=45,
-        null=True,
-    )
-    estado = models.CharField(
-        max_length=20,
-        null=True,
-    )
-    cep = models.CharField(
-        max_length=20,
-        null=True,
-    )
-    contato = models.CharField(
-        max_length=45,
-        null=True,
-    )
-    complemento = models.CharField(
-        max_length=45,
-        null=True,
-    )
+    funcionario = models.BooleanField(default=False)
     fornecedor = models.BooleanField(default=False)
+    data_cadastro = models.DateField(auto_now_add=True)
+
     user = models.OneToOneField(
         "users.user",
         on_delete=models.CASCADE,
+        related_name="cliente",
         null=True,
     )

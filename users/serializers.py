@@ -3,9 +3,6 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
-
     def update(self, instance: User, validated_data: dict):
         for key, value in validated_data.items():
             setattr(instance, key, value)
@@ -20,12 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             "id",
-            "nome",
             "username",
             "senha",
-            "is_active",
-            "dataCadastro",
-            "dataExpiracao",
-            "url_image_user",
+            "user_type",
         ]
         extra_kwargs = {"senha": {"write_only": True, "source": "password"}}

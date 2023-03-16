@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 import dotenv
 from pathlib import Path
+from datetime import timedelta
 
 dotenv.load_dotenv()
 
@@ -50,6 +51,7 @@ THIRD_PARTY_APPS = [
 MY_APPS = [
     "users",
     "clientes",
+    "enderecos",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
@@ -121,6 +123,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
 
 LANGUAGE_CODE = "en-us"
 

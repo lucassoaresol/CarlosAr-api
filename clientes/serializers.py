@@ -5,88 +5,32 @@ from .models import Cliente
 
 
 class ClienteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cliente
-        fields = [
-            "id",
-            "nomeCliente",
-            "sexo",
-            "pessoa_fisica",
-            "documento",
-            "telefone",
-            "celular",
-            "email",
-            "dataCadastro",
-            "rua",
-            "numero",
-            "bairro",
-            "cidade",
-            "estado",
-            "cep",
-            "contato",
-            "complemento",
-            "fornecedor",
-        ]
+    user = UserSerializer(read_only=True)
 
+    def create(self, validated_data: dict):
+        email = validated_data.get("email")
+        senha = self.context["request"].data.get("senha")
 
-class ClienteWithUserSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+        if email and senha:
+            user = User.objects.create_user(
+                username=email,
+                password=senha,
+            )
 
-    def update(self, instance: Cliente, validated_data: dict):
-        user_data = validated_data.pop("user")
-
-        user = User.objects.create_user(**user_data)
-
-        for key, value in validated_data.items():
-            setattr(instance, key, value)
-
-        instance.user = user
-
-        instance.user.nome = instance.nomeCliente
-
-        instance.save()
-
-        return instance
+        return Cliente.objects.create(**validated_data, user=user)
 
     class Meta:
         model = Cliente
         fields = [
             "id",
-            "nomeCliente",
-            "sexo",
-            "pessoa_fisica",
+            "nome",
             "documento",
-            "telefone",
-            "celular",
             "email",
-            "dataCadastro",
-            "rua",
-            "numero",
-            "bairro",
-            "cidade",
-            "estado",
-            "cep",
-            "contato",
-            "complemento",
+            "celular",
+            "telefone",
+            "pessoa_fisica",
+            "funcionario",
             "fornecedor",
+            "data_cadastro",
             "user",
-        ]
-        read_only_fields = [
-            "nomeCliente",
-            "sexo",
-            "pessoa_fisica",
-            "documento",
-            "telefone",
-            "celular",
-            "email",
-            "dataCadastro",
-            "rua",
-            "numero",
-            "bairro",
-            "cidade",
-            "estado",
-            "cep",
-            "contato",
-            "complemento",
-            "fornecedor",
         ]
