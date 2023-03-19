@@ -1,7 +1,13 @@
+import uuid
 from django.db import models
 
 
 class Endereco(models.Model):
+    id = models.UUIDField(
+        default=uuid.uuid4,
+        primary_key=True,
+        editable=False,
+    )
     rua = models.CharField(
         max_length=70,
         null=True,
@@ -31,8 +37,8 @@ class Endereco(models.Model):
         null=True,
     )
 
-    user = models.OneToOneField(
-        "users.user",
+    cliente = models.OneToOneField(
+        "clientes.cliente",
         on_delete=models.CASCADE,
         related_name="endereco",
     )

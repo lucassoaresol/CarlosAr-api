@@ -1,7 +1,13 @@
+import uuid
 from django.db import models
 
 
 class Cliente(models.Model):
+    id = models.UUIDField(
+        default=uuid.uuid4,
+        primary_key=True,
+        editable=False,
+    )
     nome = models.CharField(max_length=255)
     documento = models.CharField(max_length=20)
     email = models.EmailField(

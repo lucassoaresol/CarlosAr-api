@@ -14,3 +14,4 @@ class User(AbstractUser):
         choices=UserType.choices,
         default=UserType.CLIENTE,
     )
+    date_disabled = models.DateTimeField(null=True)
